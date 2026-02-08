@@ -23,6 +23,11 @@
       "cache": false,
       "persistent": true
     },
+    "start:mac": {
+      "cache": false,
+      "persistent": true,
+      "env": ["HOST", "PORT", "CLUBSCORE_DB_PATH", "SETUP_WEB_DIST"]
+    },
     "build:native": {
       "dependsOn": ["^build"]
     }

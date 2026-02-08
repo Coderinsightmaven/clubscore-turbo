@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:native": "turbo run build:native --filter=@clubscore/scoreboard-windows",
+    "core:mac": "turbo run start:mac --filter=@clubscore/lan-core",
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md,css,html,json}\"",
     "check-types": "turbo run check-types",

@@ -7,12 +7,13 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
+    "start:mac": "./scripts/start-macos.sh",
     "check-types": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@clubscore/scoring-core": "workspace:*",
     "@fastify/cors": "^9.0.1",
-    "@fastify/static": "^8.3.0",
+    "@fastify/static": "^7.0.4",
     "@fastify/websocket": "^10.0.1",
     "better-sqlite3": "^11.8.1",
     "bonjour-service": "^1.3.0",

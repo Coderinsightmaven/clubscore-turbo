@@ -59,6 +59,26 @@ bun run dev --filter=@clubscore/scoreboard-windows
 
 If `apps/setup-web/dist` exists, LAN core serves setup UI at `http://<lan-core-ip>:7310/setup`.
 
+## Run LAN Core On macOS
+
+For a dedicated Mac mini or MacBook LAN host:
+
+```bash
+bun run core:mac
+```
+
+This command:
+
+- builds setup web/core artifacts if missing
+- stores SQLite at `~/Library/Application Support/ClubScore/clubscore.db`
+- serves setup UI at `http://localhost:7310/setup`
+
+Optional overrides:
+
+```bash
+HOST=0.0.0.0 PORT=7310 CLUBSCORE_DB_PATH="$HOME/clubscore.db" bun run core:mac
+```
+
 ## Validation
 
 ```bash
