@@ -26,6 +26,14 @@ coverage
 out/
 build
 dist
+target
+.expo
+apps/*/.turbo
+apps/*/dist
+apps/scoring-android/android
+apps/scoring-android/ios
+apps/scoreboard-windows/src-tauri/target
+apps/scoreboard-windows/src-tauri/gen
 
 
 # Debug

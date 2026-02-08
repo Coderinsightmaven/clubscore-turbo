@@ -1,135 +1,96 @@
-# Turborepo starter
+# ClubScore LAN
 
-This Turborepo starter is maintained by the Turborepo core team.
+ClubScore LAN is a turborepo MVP for clubs that need tennis scoring over local network only.
 
-## Using this example
+It includes three user-facing apps plus a LAN core server:
 
-Run the following command:
+- `@clubscore/setup-web`: browser setup/admin app (courts + match assignment)
+- `@clubscore/scoring-android`: Android scorer app (point entry + undo)
+- `@clubscore/scoreboard-windows`: native Windows scoreboard app (Tauri)
+- `@clubscore/lan-core`: local source-of-truth API/WebSocket server with SQLite
 
-```sh
-npx create-turbo@latest
+## MVP Constraints
+
+- Tennis only
+- Up to 12 simultaneous courts
+- Offline LAN operation (no internet required at runtime)
+- Scoreboard viewport fixed to `384x256`, full bleed, no edge border
+- Scoreboard panel placement supports `Y offset` only in v1
+- Discovery path is `mDNS first`, manual `IP:port` fallback
+
+## Monorepo Layout
+
+- `apps/lan-core`
+- `apps/setup-web`
+- `apps/scoring-android`
+- `apps/scoreboard-windows`
+- `packages/scoring-core`
+- `docs/plans/2026-02-08-clubscore-lan-design.md`
+
+## Install
+
+```bash
+bun install
 ```
 
-## What's inside?
+## Development
 
-This Turborepo includes the following packages/apps:
+Run all app/package dev tasks:
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+bun run dev
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Typical focused workflows:
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+```bash
+# LAN core server
+bun run dev --filter=@clubscore/lan-core
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+# Setup web app
+bun run dev --filter=@clubscore/setup-web
 
-### Develop
+# Android scorer app
+bun run start --filter=@clubscore/scoring-android
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+# Scoreboard web shell (inside Tauri app workspace)
+bun run dev --filter=@clubscore/scoreboard-windows
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+If `apps/setup-web/dist` exists, LAN core serves setup UI at `http://<lan-core-ip>:7310/setup`.
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+## Validation
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+```bash
+bun run check-types
+bun run test
+bun run build
 ```
 
-### Remote Caching
+## Native Windows Build (Scoreboard)
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+From a Windows machine with Rust + Visual Studio Build Tools installed:
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+bun run build:native
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## LAN Core API (v1)
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- `GET /health`
+- `GET /api/discovery`
+- `GET /api/courts`
+- `POST /api/courts`
+- `POST /api/matches/start`
+- `GET /api/matches/active`
+- `GET /api/matches/:matchId`
+- `POST /api/matches/:matchId/events`
+- `POST /api/matches/:matchId/undo`
+- `GET /api/scoreboard`
+- `GET /ws`
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
+## Deployment Notes
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- LAN core should run on the dedicated mini PC.
+- Scoreboard app runs on a Windows HDMI source machine feeding NovaStar controller.
+- Each scoreboard instance can set different `Y offset` to map panel slices.

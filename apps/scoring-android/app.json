@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "ClubScore Scorer",
+    "slug": "clubscore-scorer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": ["android"],
+    "android": {
+      "package": "com.clubscore.scorer"
+    },
+    "plugins": [],
+    "extra": {
+      "defaultMdnsHost": "http://clubscore-lan.local:7310"
+    }
+  }
+}

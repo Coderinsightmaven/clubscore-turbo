@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClubScore Scoreboard</title>
+  </head>
+  <body>
+    <div id="app">
+      <aside id="controls">
+        <h1>ClubScore Scoreboard</h1>
+        <p>Native Windows app for 384x256 LED panel slices.</p>
+
+        <label>
+          LAN Server URL
+          <input
+            id="server-url"
+            type="text"
+            placeholder="http://192.168.1.20:7310"
+          />
+        </label>
+
+        <label>
+          Panel Y Offset (px)
+          <input id="y-offset" type="number" min="0" step="1" value="0" />
+        </label>
+
+        <div class="buttons">
+          <button id="discover">Auto Discover (mDNS)</button>
+          <button id="save">Save Config</button>
+          <button id="fullscreen">Fullscreen</button>
+        </div>
+
+        <p id="status"></p>
+      </aside>
+
+      <main id="preview-shell">
+        <div id="panel-frame" aria-label="LED viewport 384x256">
+          <div id="virtual-wall"></div>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "@clubscore/scoreboard-windows",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "dev:native": "tauri dev",
+    "build": "tsc -p tsconfig.json && vite build",
+    "build:native": "tauri build",
+    "check-types": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.8.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.8.3",
+    "typescript": "5.9.2",
+    "vite": "^7.1.9"
+  }
+}
