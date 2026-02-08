@@ -41,6 +41,19 @@ Run all app/package dev tasks:
 bun run dev
 ```
 
+Run the full local stack with one command:
+
+```bash
+bun run run:all
+```
+
+This starts:
+
+- LAN core server
+- setup web app
+- Android Expo scorer server
+- scoreboard web shell on port `5184` (auto-increments if occupied)
+
 Typical focused workflows:
 
 ```bash

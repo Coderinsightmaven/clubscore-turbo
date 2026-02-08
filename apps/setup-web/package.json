@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "dev:all": "vite --host",
     "build": "tsc -p tsconfig.json && vite build",
     "preview": "vite preview --host",
     "check-types": "tsc -p tsconfig.json --noEmit"

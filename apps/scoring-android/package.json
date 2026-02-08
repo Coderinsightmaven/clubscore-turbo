@@ -4,6 +4,8 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
+    "dev": "expo start --lan",
+    "dev:all": "expo start --lan --port 8088",
     "start": "expo start --lan",
     "android": "expo run:android",
     "build": "expo export --platform android",

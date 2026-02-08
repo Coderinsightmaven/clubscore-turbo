@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "dev:all": "vite --host --port 5184 --strictPort false",
     "dev:native": "tauri dev",
     "build": "tsc -p tsconfig.json && vite build",
     "build:native": "tauri build",
